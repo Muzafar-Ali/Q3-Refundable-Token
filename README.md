@@ -3,8 +3,6 @@ Roll No: IOT045448
 
 BCC Batch 34
 
-# Create a token based on ERC20 which is buyable.
-
 We will continue with the previous token and extend that token with new features.
 
 1. Owner can transfer the ownership of the Token Contract.
