@@ -12,6 +12,7 @@ We will continue with the previous token and extend that token with new features
 
 
   Assignment 3B
+  
   Please complete the ERC20 token with the following extensions;
     
   1) Capped Token: The minting token should not be exceeded from the Capped limit.
