@@ -95,13 +95,11 @@ contract EducationToken is IERC20{
     1) - Capped Token: The minting token should not be exceeded from the Capped limit.
     2) - TimeBound Token: The token will not be transferred until the given time exceed. For example Wages payment will be due after 30 days.
     3) should be deployed by using truffle or hardhat on any Ethereum test network
-
 */
 
 /*
     Assignment 3C
     We will continue with the previous token and extend that token with new features.
-
     1. Owner can transfer the ownership of the Token Contract.
     2. Owner can approve or delegate anybody to manage the pricing of tokens.
     3. Update pricing method to allow owner and approver to change the price of the token
@@ -125,10 +123,10 @@ contract CappedAndTimeBoundAndRefundableTokens is EducationToken{
         _;
     }  
     
-    // to hold tokens minted for salary for temporary period
+    // to hold tokens minted for salary for temporary period 
     // once slary transfer  function is called all balances will be transferred to balances mappping  
-    address[] tempArrayofAdd;
-    mapping(address => uint256) temporaryStay; // it will hold balances for 30 days
+    address[] tempArrayofAddresses;
+    mapping(address => uint256) temporaryStayOfTokens; // it will hold tokens for temporary period of 30 days untill balances for 30 days
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     
     
@@ -167,18 +165,22 @@ contract CappedAndTimeBoundAndRefundableTokens is EducationToken{
         
         mintedOn = block.timestamp;
         
-        tempArrayofAdd.push(account);
-        temporaryStay[account] += amount;
+        tempArrayofAddresses.push(account);
+        temporaryStayOfTokens[account] += amount;
     
         _totalSupply += amount;
 
         emit Transfer(address(0), account, amount);      
         return true;  
     }
-
-    function transferSalaries()public transferAfterMonth returns(bool){
-        for(uint i=0; i <tempArrayofAdd.length; i++){
-        balances[tempArrayofAdd[i]] += temporaryStay[tempArrayofAdd[i]];
+    
+    // minted tokens for salaries will be transfered once this function is called
+    function transferSalaries()public transferAfterMonth returns(bool){  
+        
+        // this will transfer all tokens to all the address added in tempArrayofAddresses while mintForSalaries was called 
+        for(uint i=0; i <tempArrayofAddresses.length; i++){
+        
+        balances[tempArrayofAddresses[i]] += temporaryStayOfTokens[tempArrayofAddresses[i]];
         }
         return true;
     }
